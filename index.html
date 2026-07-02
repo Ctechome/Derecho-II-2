@@ -1,427 +1,101 @@
-<!DOCTYPE html>
-<html lang="es-MX">
+<!doctype html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simulacro Extraordinario Derecho II</title>
-  <style>
-    :root{
-      --azul:#173A5E;
-      --azul2:#245C8F;
-      --dorado:#C59A38;
-      --fondo:#F4F7FB;
-      --texto:#1F2937;
-      --muted:#64748B;
-      --ok:#166534;
-      --bad:#991B1B;
-      --card:#FFFFFF;
-      --linea:#DCE5F2;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background:linear-gradient(135deg,#eef4fb,#f8fbff 45%,#f2f5f8);
-      color:var(--texto);
-    }
-    header{
-      background:linear-gradient(135deg,var(--azul),#0E263F);
-      color:white;
-      padding:28px 22px;
-      border-bottom:5px solid var(--dorado);
-      box-shadow:0 8px 25px rgba(15,23,42,.18);
-    }
-    .wrap{max-width:1120px;margin:0 auto;padding:0 18px}
-    .topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
-    h1{margin:0;font-size:30px;letter-spacing:.2px}
-    .subtitle{margin:8px 0 0;color:#dbeafe;font-size:15px;line-height:1.45}
-    .badge{
-      border:1px solid rgba(255,255,255,.35);
-      padding:10px 14px;
-      border-radius:14px;
-      background:rgba(255,255,255,.08);
-      font-weight:600;
-      white-space:nowrap;
-    }
-    main{padding:24px 0 40px}
-    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
-    @media(max-width:900px){.grid{grid-template-columns:1fr}}
-    .card{
-      background:var(--card);
-      border:1px solid var(--linea);
-      border-radius:18px;
-      box-shadow:0 10px 24px rgba(30,41,59,.08);
-      padding:20px;
-    }
-    .card h2{margin:0 0 12px;font-size:22px;color:var(--azul)}
-    .card h3{margin:12px 0 8px;color:var(--azul);font-size:17px}
-    .muted{color:var(--muted);font-size:14px;line-height:1.5}
-    .controls{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
-    @media(max-width:720px){.controls{grid-template-columns:1fr}}
-    label{font-size:13px;font-weight:700;color:#334155;display:block;margin-bottom:6px}
-    select,input{
-      width:100%;padding:11px 12px;border-radius:12px;border:1px solid #CBD5E1;
-      font-size:15px;background:white;color:#111827;
-    }
-    button{
-      border:none;border-radius:12px;padding:12px 15px;font-weight:700;cursor:pointer;
-      transition:.15s transform,.15s opacity,.15s background;
-      font-size:15px;
-    }
-    button:hover{transform:translateY(-1px)}
-    .btn-primary{background:var(--azul2);color:white}
-    .btn-secondary{background:#E2E8F0;color:#0F172A}
-    .btn-gold{background:var(--dorado);color:#111827}
-    .btn-danger{background:#FEE2E2;color:#7F1D1D}
-    .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-    .question-box{margin-top:18px;border-top:1px solid var(--linea);padding-top:18px}
-    .status{
-      display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;
-    }
-    @media(max-width:720px){.status{grid-template-columns:repeat(2,1fr)}}
-    .stat{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:14px;padding:12px;text-align:center}
-    .stat strong{display:block;color:var(--azul);font-size:20px}.stat span{font-size:12px;color:var(--muted)}
-    .pregunta{
-      font-size:20px;line-height:1.45;font-weight:700;color:#0F172A;margin:10px 0 12px;
-    }
-    .tema-pill{display:inline-block;background:#EAF2FB;color:var(--azul);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;margin-bottom:8px}
-    .options{display:grid;gap:10px;margin-top:10px}
-    .option{
-      border:1px solid #CBD5E1;background:white;border-radius:14px;padding:13px;display:flex;gap:10px;align-items:flex-start;cursor:pointer;
-    }
-    .option:hover{background:#F8FAFC}.option input{width:auto;margin-top:3px}.option.correct{border-color:#86EFAC;background:#F0FDF4}.option.wrong{border-color:#FCA5A5;background:#FEF2F2}
-    .feedback{margin-top:14px;padding:14px;border-radius:14px;display:none;line-height:1.55}.feedback.ok{display:block;background:#F0FDF4;color:#14532D;border:1px solid #BBF7D0}.feedback.bad{display:block;background:#FEF2F2;color:#7F1D1D;border:1px solid #FECACA}
-    .progress{height:12px;background:#E2E8F0;border-radius:999px;overflow:hidden;margin:12px 0}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--azul2),var(--dorado));transition:.2s}
-    .review-item{border:1px solid #E2E8F0;border-radius:14px;padding:14px;margin:10px 0;background:#FBFDFF}.review-item b{color:var(--azul)}
-    .hide{display:none!important}
-    .topic-list{display:grid;gap:8px;margin-top:8px}.topic{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed #CBD5E1;padding:7px 0;font-size:14px}.topic span:last-child{font-weight:800;color:var(--azul)}
-    .result-big{font-size:44px;font-weight:900;color:var(--azul);margin:6px 0}.small{font-size:12px;color:var(--muted)}
-    footer{text-align:center;color:#64748B;font-size:12px;padding:22px}.print-note{background:#FFF7ED;border:1px solid #FED7AA;color:#7C2D12;border-radius:14px;padding:12px;margin-top:12px;line-height:1.5}
-
-    /* Ajustes mobile-first para estudiar desde teléfono */
-    .mobile-hint{display:none}
-    @media(max-width:640px){
-      body{background:#F7FAFE;-webkit-text-size-adjust:100%}
-      header{padding:18px 0 14px;border-bottom-width:4px;position:sticky;top:0;z-index:20}
-      .wrap{padding:0 12px;width:100%}
-      .topbar{gap:8px;display:block}
-      h1{font-size:20px;line-height:1.18;margin-right:0}
-      .subtitle{font-size:12.5px;margin-top:6px;line-height:1.35}
-      .badge{display:inline-block;margin-top:10px;padding:7px 10px;border-radius:999px;font-size:12px}
-      main{padding:12px 0 24px}
-      .grid{display:block}
-      .card{border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:0 6px 16px rgba(30,41,59,.07)}
-      .card h2{font-size:19px;margin-bottom:8px}.card h3{font-size:15px}
-      .muted{font-size:13px;line-height:1.45}
-      .controls{grid-template-columns:1fr;gap:10px;margin:12px 0}
-      label{font-size:12.5px;margin-bottom:5px}
-      select,input{font-size:16px;padding:13px 12px;border-radius:13px;min-height:48px}
-      button{width:100%;min-height:48px;padding:13px 14px;font-size:16px;border-radius:14px}
-      .btn-row{display:grid;grid-template-columns:1fr;gap:9px;margin-top:12px}
-      .status{grid-template-columns:repeat(4,1fr);gap:6px;position:sticky;top:111px;z-index:18;background:#F7FAFE;padding:6px 0 8px;margin-bottom:8px}
-      .stat{padding:8px 4px;border-radius:12px}.stat strong{font-size:16px}.stat span{font-size:10px}
-      .progress{height:9px;margin:8px 0 10px}
-      .question-box{margin-top:10px;padding-top:12px}
-      .tema-pill{font-size:11px;padding:5px 9px;margin-bottom:7px}
-      .pregunta{font-size:18px;line-height:1.38;margin:8px 0 10px}
-      .options{gap:9px}
-      .option{padding:13px 12px;border-radius:14px;gap:9px;line-height:1.35;font-size:15px;min-height:54px;align-items:flex-start}
-      .option input{transform:scale(1.25);margin:4px 4px 0 2px;flex:0 0 auto}
-      .feedback{font-size:14px;padding:12px;border-radius:13px;line-height:1.45}
-      .side{margin-top:12px}
-      .topic{font-size:13px;align-items:center}
-      .result-big{font-size:38px;text-align:center}
-      .review-item{font-size:14px;line-height:1.45;padding:12px;border-radius:13px;word-break:break-word}
-      footer{padding:14px 8px;font-size:11px}
-      .mobile-hint{display:block;background:#EFF6FF;border:1px solid #BFDBFE;color:#1E3A8A;border-radius:14px;padding:10px 12px;margin:10px 0;font-size:13px;line-height:1.4}
-    }
-    @media(max-width:380px){
-      h1{font-size:18px}.subtitle{font-size:12px}.pregunta{font-size:17px}
-      .stat strong{font-size:14px}.stat span{font-size:9.5px}.status{top:104px}
-      .option{font-size:14px}
-    }
-
-    @media print{header,.setup,.btn-row,.side{display:none!important}body{background:white}.card{box-shadow:none;border:1px solid #ccc}.grid{display:block}.wrap{max-width:100%;padding:0}.review-item{break-inside:avoid}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Examen Extraordinario | Estructura Socioeconómica de México</title>
+<style>
+:root{
+  --azul:#001E7C; --azul2:#0B2AA0; --azulSuave:#EEF3FF; --dorado:#B08A00; --texto:#111827; --gris:#6B7280; --linea:#E5E7EB; --ok:#0E7A3A; --bad:#B42318; --fondo:#F7F9FF;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--fondo);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--texto)}
+.app{max-width:520px;margin:0 auto;min-height:100vh;background:#fff;box-shadow:0 0 40px rgba(0,30,124,.12)}
+.header{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,#fff 0%,#f6f8ff 65%,#edf2ff 100%);border-bottom:1px solid var(--linea);padding:12px 16px 10px}
+.brand{display:flex;gap:12px;align-items:center}
+.brand img{width:118px;height:auto}
+.brand h1{font-size:15px;line-height:1.1;margin:0;color:var(--azul);font-weight:900}
+.brand p{margin:3px 0 0;font-size:12px;color:var(--gris)}
+.progressWrap{margin-top:12px}
+.progressInfo{display:flex;justify-content:space-between;font-size:12px;color:var(--gris);margin-bottom:6px}
+.bar{height:9px;background:#e8ecff;border-radius:999px;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--azul),#3357E8);border-radius:999px;transition:.25s}
+.tabs{display:flex;gap:7px;overflow-x:auto;padding:12px 16px;background:#fff;border-bottom:1px solid var(--linea)}
+.tab{border:1px solid #dbe2ff;color:var(--azul);background:#fff;border-radius:999px;padding:8px 11px;font-weight:800;white-space:nowrap}
+.tab.active{background:var(--azul);color:#fff}
+main{padding:16px 14px 90px}
+.panel{display:none}
+.panel.active{display:block}
+.sectionTitle{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:4px 0 12px}
+.sectionTitle h2{font-size:19px;line-height:1.15;margin:0;color:var(--azul)}
+.badge{background:#FFF7D6;color:#6d5200;border:1px solid #F2D46B;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:800}
+.card{border:1px solid var(--linea);border-radius:18px;padding:14px;margin:12px 0;background:#fff;box-shadow:0 8px 22px rgba(17,24,39,.06)}
+.qhead{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+.num{width:28px;height:28px;border-radius:50%;background:var(--azulSuave);color:var(--azul);display:grid;place-items:center;font-weight:900;font-size:13px;flex:0 0 auto}
+.qtext{font-size:15px;line-height:1.38;font-weight:650}
+.input{width:100%;border:1px solid #cfd7f5;border-radius:14px;padding:12px 13px;font-size:16px;margin-top:10px;outline:none}
+.input:focus{border-color:var(--azul);box-shadow:0 0 0 4px rgba(0,30,124,.08)}
+.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.btn{border:0;border-radius:13px;padding:10px 12px;font-weight:900;background:var(--azul);color:#fff;cursor:pointer}
+.btn.secondary{background:#eef2ff;color:var(--azul)}
+.btn.ghost{background:#fff;border:1px solid #dbe2ff;color:var(--azul)}
+.feedback{display:none;margin-top:10px;padding:10px;border-radius:14px;font-size:14px;line-height:1.35}
+.feedback.ok{display:block;background:#ECFDF3;color:var(--ok);border:1px solid #ABEFC6}
+.feedback.bad{display:block;background:#FEF3F2;color:var(--bad);border:1px solid #FECDCA}
+.answer{display:none;margin-top:9px;padding:10px;background:#F8FAFC;border-left:4px solid var(--azul);border-radius:10px;font-size:14px;line-height:1.35}
+.answer.show{display:block}
+.model{font-weight:950;color:var(--azul);font-size:16px;margin-bottom:9px;text-transform:uppercase;letter-spacing:.02em}
+.option{border:1px solid #dbe2ff;border-radius:14px;padding:11px 12px;margin:8px 0;background:#fbfcff;line-height:1.35;font-size:14px;cursor:pointer}
+.option.selected.good{border-color:#12B76A;background:#ECFDF3;color:#05603A}
+.option.selected.wrong{border-color:#F04438;background:#FEF3F2;color:#912018}
+.note{font-size:12px;color:#6B7280;margin-top:8px}
+.cycleBox{background:linear-gradient(180deg,#f8faff,#fff);border:1px dashed #bdc9ff;border-radius:18px;padding:16px;margin-top:12px}
+.wave{height:85px;position:relative;margin:8px 0 14px}
+.wave svg{width:100%;height:100%}
+.labels{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;text-align:center;font-size:11px;color:var(--azul);font-weight:900}
+.footerbar{position:fixed;left:50%;transform:translateX(-50%);bottom:0;max-width:520px;width:100%;background:#fff;border-top:1px solid var(--linea);padding:10px 14px;display:flex;gap:10px;z-index:40}
+.footerbar button{flex:1}
+.small{font-size:12px;color:var(--gris);line-height:1.35}
+.pill{display:inline-block;background:var(--azulSuave);color:var(--azul);border-radius:999px;padding:5px 8px;font-size:12px;font-weight:900;margin-top:4px}
+@media print{.header,.tabs,.footerbar,.actions{display:none}.app{box-shadow:none;max-width:none}main{padding:0}.panel{display:block!important;page-break-after:always}}
+</style>
 </head>
 <body>
-<header>
-  <div class="wrap topbar">
-    <div>
-      <h1>Simulacro de Examen Extraordinario · Derecho II</h1>
-      <p class="subtitle">Entrenamiento intensivo para bachillerato: Derecho Civil y Familiar, Derecho Penal y Derecho Mercantil.</p>
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <img src="data:image/png;base64,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" alt="Universidad La Salle Oaxaca">
+      <div><h1>Guía móvil de estudio</h1><p>Estructura Socioeconómica de México · Examen extraordinario</p></div>
     </div>
-    <div class="badge">Modo: 1 día de estudio</div>
-  </div>
-</header>
-<main class="wrap">
-  <div class="grid">
-    <section class="card">
-      <div class="setup" id="setup">
-        <h2>Configurar simulacro</h2>
-        <p class="muted">Selecciona el tamaño del examen. Las preguntas se mezclan automáticamente y al final se muestra calificación, lista de errores y explicación.</p>
-        <div class="mobile-hint">Versión optimizada para celular: usa botones grandes, tarjetas verticales y barra de avance visible durante el examen.</div>
-        <div class="controls">
-          <div><label>Número de preguntas</label><select id="numPreg"><option value="20">20 preguntas</option><option value="30" selected>30 preguntas</option><option value="40">40 preguntas</option><option value="50">50 preguntas</option><option value="80">Banco completo</option></select></div>
-          <div><label>Tiempo</label><select id="minutos"><option value="20">20 minutos</option><option value="30" selected>30 minutos</option><option value="45">45 minutos</option><option value="60">60 minutos</option><option value="0">Sin temporizador</option></select></div>
-          <div><label>Modo</label><select id="modo"><option value="examen" selected>Examen: retroalimentación al final</option><option value="estudio">Estudio: explicación inmediata</option></select></div>
-        </div>
-        <div class="btn-row"><button class="btn-primary" onclick="iniciar()">Iniciar simulacro</button><button class="btn-secondary" onclick="verBanco()">Ver banco de temas</button></div>
-      </div>
-
-      <div id="exam" class="hide">
-        <div class="status">
-          <div class="stat"><strong id="actual">1</strong><span>Pregunta</span></div>
-          <div class="stat"><strong id="total">30</strong><span>Total</span></div>
-          <div class="stat"><strong id="timer">30:00</strong><span>Tiempo</span></div>
-          <div class="stat"><strong id="respondidas">0</strong><span>Respondidas</span></div>
-        </div>
-        <div class="progress"><div class="bar" id="bar"></div></div>
-        <div class="question-box">
-          <span class="tema-pill" id="tema"></span>
-          <div class="pregunta" id="pregunta"></div>
-          <div class="options" id="opciones"></div>
-          <div class="feedback" id="feedback"></div>
-          <div class="btn-row">
-            <button class="btn-secondary" onclick="anterior()">Anterior</button>
-            <button class="btn-primary" onclick="siguiente()">Siguiente</button>
-            <button class="btn-gold" onclick="finalizar(false)">Finalizar examen</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="results" class="hide">
-        <h2>Resultado del simulacro</h2>
-        <div class="result-big" id="scoreBig"></div>
-        <p id="diagnostico" class="muted"></p>
-        <div class="status">
-          <div class="stat"><strong id="aciertos"></strong><span>Aciertos</span></div>
-          <div class="stat"><strong id="errores"></strong><span>Errores</span></div>
-          <div class="stat"><strong id="porcentaje"></strong><span>Porcentaje</span></div>
-          <div class="stat"><strong id="nivel"></strong><span>Nivel</span></div>
-        </div>
-        <h3>Lista roja: temas que debe repasar</h3>
-        <div id="listaRoja" class="topic-list"></div>
-        <div class="btn-row">
-          <button class="btn-primary" onclick="reiniciar()">Nuevo simulacro</button>
-          <button class="btn-secondary" onclick="window.print()">Imprimir revisión</button>
-          <button class="btn-danger" onclick="mostrarSoloErrores()">Ver solo errores</button>
-        </div>
-        <h3>Revisión de respuestas</h3>
-        <div id="revision"></div>
-      </div>
-    </section>
-
-    <aside class="card side">
-      <h2>Ruta express de estudio</h2>
-      <p class="muted">Para un solo día, primero memorizar definiciones cortas y después practicar diferencias.</p>
-      <h3>Prioridad alta</h3>
-      <div class="topic-list">
-        <div class="topic"><span>Capacidad de goce / ejercicio</span><span>Civil</span></div>
-        <div class="topic"><span>Acto jurídico / hecho jurídico</span><span>Civil</span></div>
-        <div class="topic"><span>Vicios del consentimiento</span><span>Civil</span></div>
-        <div class="topic"><span>Sucesión testamentaria / intestamentaria</span><span>Civil</span></div>
-        <div class="topic"><span>Parentesco, filiación y patria potestad</span><span>Familiar</span></div>
-        <div class="topic"><span>Delito, pena, sanción</span><span>Penal</span></div>
-        <div class="topic"><span>Pagaré, letra, cheque, endoso</span><span>Mercantil</span></div>
-      </div>
-      <div class="print-note"><b>Consejo:</b> después de cada simulacro, repasar únicamente la lista roja. No pierdas tiempo releyendo lo que ya domina.</div>
-      <h3>Regla de oro</h3>
-      <p class="muted">Debe poder contestar cada definición en menos de 20 segundos y dar un ejemplo sencillo.</p>
-    </aside>
-  </div>
-</main>
-<footer>Simulacro elaborado para preparación intensiva de Derecho II · Bachillerato · Uso académico</footer>
+    <div class="progressWrap">
+      <div class="progressInfo"><span id="scoreText">Avance: 0/53</span><span id="scorePct">0%</span></div>
+      <div class="bar"><div class="fill" id="fill"></div></div>
+    </div>
+  </header>
+  <nav class="tabs" id="tabs"></nav>
+  <main id="main"></main>
+  <div class="footerbar"><button class="btn secondary" onclick="prevSection()">Anterior</button><button class="btn" onclick="nextSection()">Siguiente</button></div>
+</div>
 <script>
-const banco = [
-{t:'Derecho Civil',q:'¿Qué regula principalmente el Derecho Civil?',o:['Las relaciones entre particulares sobre persona, bienes, obligaciones, contratos, familia y sucesiones','Únicamente los delitos graves cometidos por particulares','Solo las actividades comerciales entre empresas','La organización interna de los tribunales'],a:0,e:'El Derecho Civil regula relaciones privadas: persona, familia, bienes, obligaciones, contratos y sucesiones.'},
-{t:'Derecho Civil',q:'¿Qué es la capacidad de goce?',o:['La aptitud para ser titular de derechos y obligaciones','La facultad exclusiva de votar en elecciones','La capacidad de representar a una empresa','La obligación de pagar impuestos'],a:0,e:'Capacidad de goce significa poder tener derechos y obligaciones, aun cuando no se puedan ejercer personalmente.'},
-{t:'Derecho Civil',q:'¿Qué es la capacidad de ejercicio?',o:['La aptitud para ejercer derechos y cumplir obligaciones por sí mismo','El derecho a recibir herencia aunque se sea menor de edad','La facultad de existir como persona física','La obligación de tener domicilio legal'],a:0,e:'La capacidad de ejercicio permite realizar actos jurídicos válidos por cuenta propia.'},
-{t:'Derecho Civil',q:'Un menor de edad que hereda una casa tiene principalmente:',o:['Capacidad de goce','Capacidad plena de ejercicio','Calidad de comerciante','Patria potestad'],a:0,e:'Puede ser titular de derechos, aunque no necesariamente ejercerlos por sí mismo.'},
-{t:'Derecho Civil',q:'¿Cuál es un ejemplo de persona física?',o:['Un ser humano','Una sociedad anónima','Una asociación civil','Una universidad pública'],a:0,e:'La persona física es el individuo humano.'},
-{t:'Derecho Civil',q:'¿Cuál es un ejemplo de persona moral?',o:['Una empresa constituida legalmente','Un recién nacido','Un padre de familia','Un alumno de bachillerato'],a:0,e:'La persona moral es una organización reconocida por la ley como sujeto de derechos y obligaciones.'},
-{t:'Derecho Civil',q:'¿Qué es la personalidad jurídica?',o:['La aptitud para ser sujeto de derechos y obligaciones','La manera psicológica de comportarse','El carácter fuerte de una persona','El estado emocional de una persona'],a:0,e:'En Derecho, personalidad no es carácter; es aptitud jurídica.'},
-{t:'Derecho Civil',q:'¿Cuál NO es un atributo típico de la personalidad?',o:['Color favorito','Nombre','Domicilio','Patrimonio'],a:0,e:'Los atributos jurídicos incluyen nombre, domicilio, estado civil, nacionalidad, patrimonio y capacidad.'},
-{t:'Derecho Civil',q:'¿Qué es un acto jurídico?',o:['Manifestación de voluntad destinada a producir consecuencias jurídicas','Acontecimiento natural sin efectos legales','Cualquier delito cometido con intención','Una sanción impuesta por un juez'],a:0,e:'El acto jurídico requiere voluntad y produce efectos reconocidos por el Derecho.'},
-{t:'Derecho Civil',q:'¿Qué es un hecho jurídico?',o:['Acontecimiento natural o humano que produce consecuencias jurídicas','Contrato firmado ante notario necesariamente','Acto de comercio realizado por un comerciante','Documento de crédito mercantil'],a:0,e:'Puede haber consecuencia jurídica aunque no exista intención directa, como nacimiento o muerte.'},
-{t:'Derecho Civil',q:'La muerte de una persona, para efectos de herencia, es ejemplo de:',o:['Hecho jurídico','Contrato mercantil','Acto administrativo','Endoso'],a:0,e:'La muerte produce consecuencias jurídicas aunque sea un acontecimiento natural.'},
-{t:'Derecho Civil',q:'¿Cuál es un elemento de validez del acto jurídico?',o:['Capacidad de las partes','Que siempre sea gratuito','Que intervenga el Ministerio Público','Que se realice en un banco'],a:0,e:'Los elementos de validez incluyen capacidad, ausencia de vicios, licitud y forma cuando la ley la exige.'},
-{t:'Derecho Civil',q:'¿Cuál de los siguientes es un vicio del consentimiento?',o:['Dolo','Parentesco','Filiación','Endoso'],a:0,e:'El dolo es engaño para obtener la voluntad de otra persona.'},
-{t:'Derecho Civil',q:'Cuando alguien firma un contrato por amenazas, existe:',o:['Violencia como vicio del consentimiento','Capacidad de goce','Endoso en garantía','Sucesión legítima'],a:0,e:'La violencia puede anular la voluntad libre de quien celebra el acto.'},
-{t:'Derecho Civil',q:'¿Qué puede ocurrir con un acto jurídico celebrado con vicios del consentimiento?',o:['Puede ser anulado','Se convierte automáticamente en delito grave','Se transforma en cheque','Genera patria potestad'],a:0,e:'Los vicios del consentimiento pueden ocasionar nulidad o anulabilidad del acto, según el caso.'},
-{t:'Derecho Civil',q:'¿Qué es un contrato?',o:['Acuerdo de voluntades que crea o transmite derechos y obligaciones','Documento que siempre transmite una herencia','Orden de pago emitida contra un banco','Sentencia que impone una pena'],a:0,e:'El contrato nace del acuerdo de voluntades entre partes.'},
-{t:'Derecho Civil',q:'¿Cuál es una condición de validez de los contratos?',o:['Consentimiento libre de vicios','Que siempre sea verbal','Que no tenga obligaciones','Que sea firmado por un ministerio público'],a:0,e:'El consentimiento debe ser libre y consciente.'},
-{t:'Derecho Civil',q:'¿Qué es una cosa en sentido jurídico general?',o:['Un objeto susceptible de apropiación o utilidad jurídica','Una persona moral','Una pena privativa de libertad','Una forma de parentesco'],a:0,e:'La cosa es el objeto sobre el cual pueden recaer derechos.'},
-{t:'Derecho Civil',q:'¿Qué es un bien?',o:['Cosa útil y susceptible de apropiación con valor jurídico o económico','Únicamente un inmueble registrado','Solo dinero en efectivo','Una sanción penal'],a:0,e:'El bien es una cosa apropiable y útil jurídicamente.'},
-{t:'Derecho Civil',q:'¿Cuál es un bien mueble?',o:['Un automóvil','Una casa','Un terreno','Un edificio'],a:0,e:'Los bienes muebles pueden trasladarse de un lugar a otro.'},
-{t:'Derecho Civil',q:'¿Cuál es un bien inmueble?',o:['Un terreno','Una computadora portátil','Un reloj','Un automóvil'],a:0,e:'Los bienes inmuebles no pueden trasladarse sin alterar su naturaleza.'},
-{t:'Sucesiones',q:'¿Qué es una sucesión?',o:['Transmisión de bienes, derechos y obligaciones de una persona fallecida a sus herederos','Contrato de compraventa entre comerciantes','Relación jurídica entre padres e hijos','Privación legal de libertad'],a:0,e:'La sucesión opera por causa de muerte y transmite el patrimonio del fallecido.'},
-{t:'Sucesiones',q:'¿Qué es la sucesión testamentaria?',o:['La que se realiza conforme a un testamento válido','La que ocurre cuando no hay testamento','La que solo procede por matrimonio','La que deriva de un cheque'],a:0,e:'Existe voluntad expresa del autor de la herencia mediante testamento.'},
-{t:'Sucesiones',q:'¿Qué es la sucesión intestamentaria o legítima?',o:['La que procede cuando no hay testamento válido','La que se hace únicamente por pagaré','La que se realiza por endoso','La que impone una pena'],a:0,e:'Si no hay testamento válido, la ley determina quiénes heredan.'},
-{t:'Sucesiones',q:'¿Qué es un testamento?',o:['Acto jurídico por el cual una persona dispone de sus bienes para después de su muerte','Contrato obligatorio entre comerciantes','Documento para cobrar en un banco','Resolución del Ministerio Público'],a:0,e:'El testamento expresa la voluntad del testador para después de su fallecimiento.'},
-{t:'Sucesiones',q:'¿Qué es herencia?',o:['Conjunto de bienes, derechos y obligaciones que deja una persona al morir','Solo dinero depositado en bancos','Únicamente casas y terrenos','Documento para transmitir un cheque'],a:0,e:'La herencia comprende el patrimonio transmisible del fallecido.'},
-{t:'Derecho Familiar',q:'¿Qué regula el Derecho Familiar?',o:['Las relaciones jurídicas entre integrantes de la familia','Los actos de comercio internacionales','La persecución de delitos','La emisión de títulos de crédito'],a:0,e:'Se ocupa de matrimonio, parentesco, filiación, patria potestad, alimentos, entre otros.'},
-{t:'Derecho Familiar',q:'¿Qué es el parentesco?',o:['Vínculo jurídico que une a personas dentro de una familia','Documento necesario para cobrar un crédito','Castigo impuesto por un juez','Capacidad para firmar contratos'],a:0,e:'El parentesco genera derechos y obligaciones familiares.'},
-{t:'Derecho Familiar',q:'¿Cuál es un tipo de parentesco?',o:['Consanguíneo','Mercantil','Penal','Bancario'],a:0,e:'Los principales tipos son consanguíneo, por afinidad y civil.'},
-{t:'Derecho Familiar',q:'El parentesco entre suegros y yernos es:',o:['Por afinidad','Consanguíneo directo','Mercantil','Penal'],a:0,e:'La afinidad surge por el matrimonio con parientes del cónyuge.'},
-{t:'Derecho Familiar',q:'El parentesco por adopción se considera:',o:['Civil','Mercantil','Penal','Intestamentario'],a:0,e:'La adopción genera parentesco civil.'},
-{t:'Derecho Familiar',q:'Padre, hijo y abuelo pertenecen a la línea:',o:['Recta','Colateral','Mercantil','Bancaria'],a:0,e:'La línea recta une ascendientes y descendientes.'},
-{t:'Derecho Familiar',q:'Hermanos, tíos y primos son ejemplos de parentesco en línea:',o:['Colateral','Recta descendente únicamente','Mercantil','Penal'],a:0,e:'La línea colateral une parientes que no descienden unos de otros, pero comparten tronco común.'},
-{t:'Derecho Familiar',q:'¿Qué es el matrimonio?',o:['Unión jurídica de dos personas que genera derechos y obligaciones recíprocas','Documento para transmitir títulos de crédito','Delito grave contra la familia','Sanción impuesta por el Estado'],a:0,e:'El matrimonio crea una comunidad de vida reconocida por la ley.'},
-{t:'Derecho Familiar',q:'¿Cuál es una obligación común entre cónyuges?',o:['Ayuda mutua','Emitir cheques','Investigar delitos','Endosar pagarés'],a:0,e:'Entre cónyuges hay deberes como respeto, ayuda mutua, alimentos y contribución al hogar.'},
-{t:'Derecho Familiar',q:'¿Cuál es una forma de disolución del vínculo matrimonial?',o:['Divorcio','Endoso','Pagaré','Medida de seguridad'],a:0,e:'El divorcio disuelve legalmente el vínculo matrimonial.'},
-{t:'Derecho Familiar',q:'¿Qué es la filiación?',o:['Vínculo jurídico entre padres e hijos','Vínculo entre comerciante y banco','Documento de crédito','Tipo de pena'],a:0,e:'La filiación genera derechos y obligaciones entre padres e hijos.'},
-{t:'Derecho Familiar',q:'¿Cuál derecho u obligación deriva de la filiación?',o:['Alimentos y cuidado','Pago de letra de cambio','Clasificación de delitos','Endoso en procuración'],a:0,e:'De la filiación derivan alimentos, educación, cuidado, convivencia, nombre y herencia.'},
-{t:'Derecho Familiar',q:'¿Qué es la patria potestad?',o:['Conjunto de derechos y obligaciones sobre hijos menores no emancipados','Una pena privativa de libertad','Una orden de pago bancaria','Un tipo de contrato mercantil'],a:0,e:'Normalmente la ejercen los padres sobre hijos menores.'},
-{t:'Derecho Familiar',q:'¿Quiénes ejercen generalmente la patria potestad?',o:['Los padres','El banco librado','El Ministerio Público en todos los casos','El beneficiario de un cheque'],a:0,e:'Generalmente corresponde a padre y madre, salvo situaciones legales especiales.'},
-{t:'Derecho Familiar',q:'¿Qué es la emancipación?',o:['Situación jurídica por la cual un menor deja de estar sujeto a patria potestad en ciertos casos','Forma de transmitir un título de crédito','Clasificación de delitos','Promesa escrita de pago'],a:0,e:'La emancipación modifica la situación jurídica del menor respecto de la patria potestad.'},
-{t:'Derecho Penal',q:'¿Qué es el Derecho Penal?',o:['Rama del Derecho Público que establece delitos, penas y medidas de seguridad','Rama que regula únicamente contratos civiles','Rama que regula solo títulos de crédito','Rama que organiza matrimonios'],a:0,e:'El Derecho Penal protege bienes jurídicos mediante la definición de delitos y sanciones.'},
-{t:'Derecho Penal',q:'¿Cuál es un bien jurídico protegido por el Derecho Penal?',o:['La vida','El endoso','La letra de cambio','La capacidad de goce'],a:0,e:'El Derecho Penal protege bienes como vida, libertad, patrimonio, integridad y seguridad.'},
-{t:'Derecho Penal',q:'¿Qué es delito?',o:['Conducta prohibida por la ley penal que daña o pone en peligro un bien jurídico','Acuerdo de voluntades entre particulares','Documento necesario para cobrar un derecho','Vínculo jurídico entre padres e hijos'],a:0,e:'El delito es una conducta típica, antijurídica y culpable sancionada por la ley.'},
-{t:'Derecho Penal',q:'¿Qué es una pena?',o:['Castigo impuesto por el Estado a quien comete un delito','Documento firmado por un comerciante','Atributo de la personalidad','Derecho derivado de filiación'],a:0,e:'La pena es consecuencia jurídica penal por la comisión de un delito.'},
-{t:'Derecho Penal',q:'¿Qué es una sanción?',o:['Consecuencia jurídica por incumplir una norma','Promesa de pago mercantil','Relación de parentesco','Testamento válido'],a:0,e:'La sanción es la consecuencia que impone el Derecho ante una conducta contraria a la norma.'},
-{t:'Derecho Penal',q:'¿Qué es una medida de seguridad?',o:['Medida preventiva o protectora para evitar nuevos delitos o proteger a la sociedad','Documento para transmitir un crédito','Acuerdo matrimonial','Tipo de persona moral'],a:0,e:'No se centra solo en castigar; busca prevención y protección.'},
-{t:'Derecho Penal',q:'¿Cuál es un tipo de pena?',o:['Prisión','Endoso','Matrimonio','Capacidad de goce'],a:0,e:'Prisión, multa y reparación del daño son ejemplos de penas o consecuencias penales.'},
-{t:'Derecho Penal',q:'Los delitos dolosos se caracterizan por:',o:['Intención de cometer la conducta','Falta absoluta de voluntad','Ser siempre mercantiles','Ser actos de familia'],a:0,e:'En el dolo existe intención o conocimiento de realizar la conducta delictiva.'},
-{t:'Derecho Penal',q:'Los delitos culposos se relacionan con:',o:['Imprudencia, negligencia o falta de cuidado','Testamento escrito','Endoso en propiedad','Matrimonio nulo'],a:0,e:'La culpa no implica querer el resultado, sino producirlo por falta de cuidado.'},
-{t:'Derecho Penal',q:'¿Cuál es la diferencia general entre delitos graves y no graves?',o:['Los graves afectan bienes jurídicos de mayor importancia y tienen consecuencias más severas','Los no graves siempre son mercantiles','Los graves solo ocurren en contratos','No existe diferencia legal'],a:0,e:'La gravedad depende del impacto jurídico-social y de la regulación aplicable.'},
-{t:'Derecho Penal',q:'¿Cuál es la función del Ministerio Público?',o:['Investigar delitos y ejercer acción penal ante tribunales','Celebrar matrimonios civiles','Endosar títulos de crédito','Dictar testamentos'],a:0,e:'El Ministerio Público dirige la investigación y promueve la acción penal.'},
-{t:'Derecho Mercantil',q:'¿Qué regula el Derecho Mercantil?',o:['Actos de comercio, comerciantes, empresas y títulos de crédito','Matrimonio y filiación','Delitos graves y penas','Patria potestad'],a:0,e:'El Derecho Mercantil pertenece al ámbito privado y se enfoca en comercio.'},
-{t:'Derecho Mercantil',q:'¿Qué es un título de crédito?',o:['Documento necesario para ejercer el derecho literal y autónomo que contiene','Contrato matrimonial','Sentencia penal','Atributo de personalidad'],a:0,e:'El derecho está incorporado al documento.'},
-{t:'Derecho Mercantil',q:'¿Cuál es un título de crédito?',o:['Pagaré','Acta de nacimiento','Sentencia penal','Patria potestad'],a:0,e:'Pagaré, letra de cambio y cheque son títulos de crédito.'},
-{t:'Derecho Mercantil',q:'El pagaré se caracteriza por ser:',o:['Promesa de pago','Orden de pago contra un banco exclusivamente','Sentencia judicial','Relación familiar'],a:0,e:'En el pagaré, una persona promete pagar una cantidad a otra.'},
-{t:'Derecho Mercantil',q:'La letra de cambio se caracteriza por ser:',o:['Orden de pago dirigida a una persona para pagar a otra','Promesa unilateral de heredar','Documento de parentesco','Medida de seguridad'],a:0,e:'Intervienen girador, girado y beneficiario.'},
-{t:'Derecho Mercantil',q:'El cheque se caracteriza por ser:',o:['Orden de pago girada contra una institución bancaria','Contrato de matrimonio','Documento de patria potestad','Tipo de delito culposo'],a:0,e:'El banco paga con cargo a fondos disponibles del librador.'},
-{t:'Derecho Mercantil',q:'En el pagaré intervienen principalmente:',o:['Suscriptor y beneficiario','Padre e hijo','Ministerio Público y juez','Cónyuges'],a:0,e:'El suscriptor promete pagar al beneficiario.'},
-{t:'Derecho Mercantil',q:'En la letra de cambio intervienen:',o:['Girador, girado y beneficiario','Testador y heredero únicamente','Padre, madre e hijo','Ministerio Público y policía'],a:0,e:'La letra de cambio implica una orden de pago.'},
-{t:'Derecho Mercantil',q:'En el cheque intervienen generalmente:',o:['Librador, banco librado y beneficiario','Cónyuges y testigos','Padres e hijos','Juez penal y sentenciado'],a:0,e:'El librador emite el cheque contra el banco librado para pagar al beneficiario.'},
-{t:'Derecho Mercantil',q:'¿Qué significa el principio de incorporación en los títulos de crédito?',o:['El derecho está unido al documento','El documento siempre es familiar','El título no puede circular','El derecho depende de parentesco'],a:0,e:'Para ejercer el derecho se requiere el documento.'},
-{t:'Derecho Mercantil',q:'¿Qué significa literalidad?',o:['El derecho se ejerce conforme a lo que está escrito en el documento','El título siempre debe escribirse a mano','El documento no puede transmitirse','El pago depende de matrimonio'],a:0,e:'Lo escrito en el título define el alcance del derecho.'},
-{t:'Derecho Mercantil',q:'¿Qué significa autonomía en los títulos de crédito?',o:['Cada titular adquiere un derecho propio e independiente','El título depende siempre del contrato familiar','El cheque no necesita banco','El pagaré no contiene deuda'],a:0,e:'La autonomía protege al poseedor legítimo del título.'},
-{t:'Derecho Mercantil',q:'¿Qué es el endoso?',o:['Forma de transmitir un título de crédito a otra persona','Forma de disolver matrimonio','Tipo de pena penal','Capacidad jurídica de un menor'],a:0,e:'El endoso permite transferir derechos incorporados en un título.'},
-{t:'Derecho Mercantil',q:'¿Qué tipo de endoso transmite la propiedad del título?',o:['Endoso en propiedad','Endoso en alimentos','Endoso penal','Endoso familiar'],a:0,e:'El endoso en propiedad transmite la titularidad del documento.'},
-{t:'Derecho Mercantil',q:'¿Qué tipo de endoso autoriza a cobrar sin transmitir la propiedad?',o:['Endoso en procuración','Endoso en propiedad','Endoso testamentario','Endoso matrimonial'],a:0,e:'El endoso en procuración faculta a gestionar o cobrar.'},
-{t:'Derecho Mercantil',q:'¿Qué tipo de endoso se entrega como respaldo de una obligación?',o:['Endoso en garantía','Endoso civil','Endoso penal','Endoso por filiación'],a:0,e:'El endoso en garantía usa el título como garantía.'},
-{t:'Mixta',q:'¿Cuál pareja de conceptos pertenece al Derecho Mercantil?',o:['Cheque y endoso','Patria potestad y filiación','Delito y pena','Capacidad y domicilio'],a:0,e:'Cheque y endoso son propios de títulos de crédito.'},
-{t:'Mixta',q:'¿Cuál pareja de conceptos pertenece al Derecho Familiar?',o:['Matrimonio y filiación','Pagaré y cheque','Delito y pena','Dolo y letra de cambio'],a:0,e:'Matrimonio y filiación son instituciones familiares.'},
-{t:'Mixta',q:'¿Cuál pareja de conceptos pertenece al Derecho Penal?',o:['Delito y pena','Contrato y patrimonio','Endoso y cheque','Parentesco y filiación'],a:0,e:'El Derecho Penal estudia delitos, penas, sanciones y medidas de seguridad.'},
-{t:'Mixta',q:'Si una persona engaña a otra para firmar un contrato, aparece:',o:['Dolo','Filiación','Cheque','Patria potestad'],a:0,e:'El dolo es engaño como vicio del consentimiento.'},
-{t:'Mixta',q:'Si no hay testamento válido, la sucesión será:',o:['Intestamentaria o legítima','Mercantil','Por endoso','Penal culposa'],a:0,e:'La ley determina los herederos cuando falta testamento válido.'},
-{t:'Mixta',q:'El documento que contiene una promesa de pago es:',o:['Pagaré','Cheque','Acta de matrimonio','Sentencia penal'],a:0,e:'El pagaré contiene promesa de pago.'},
-{t:'Mixta',q:'La institución que investiga delitos es:',o:['Ministerio Público','Registro Civil en todos los casos','Banco librado','Beneficiario'],a:0,e:'El Ministerio Público dirige investigación y acción penal.'},
-{t:'Mixta',q:'La relación jurídica entre padres e hijos se llama:',o:['Filiación','Endoso','Literalidad','Sanción'],a:0,e:'La filiación une jurídicamente a padres e hijos.'},
-{t:'Mixta',q:'El derecho incorporado al documento corresponde al principio de:',o:['Incorporación','Filiación','Culpa','Parentesco'],a:0,e:'En títulos de crédito, el documento y el derecho están unidos.'},
-{t:'Mixta',q:'Nombre, domicilio y patrimonio son:',o:['Atributos de la personalidad','Tipos de pena','Títulos de crédito','Formas de endoso'],a:0,e:'Son atributos jurídicos de la personalidad.'},
-{t:'Mixta',q:'El robo afecta principalmente el bien jurídico llamado:',o:['Patrimonio','Endoso','Matrimonio','Capacidad de ejercicio'],a:0,e:'El robo afecta el patrimonio de la víctima.'},
-{t:'Mixta',q:'El homicidio afecta principalmente el bien jurídico llamado:',o:['Vida','Comercio','Parentesco','Domicilio'],a:0,e:'La vida es uno de los bienes jurídicos más importantes protegidos por el Derecho Penal.'}
-];
-let examen=[], idx=0, respuestas=[], intervalo=null, segundos=0, modo='examen', soloErrores=false;
-function shuffle(arr){return [...arr].sort(()=>Math.random()-0.5)}
-function prepararOpciones(p){
-  const correcta=p.o[p.a];
-  const opts=shuffle(p.o.map((txt,i)=>({txt,ok:i===p.a})));
-  return {...p, opciones:opts, correctIndex:opts.findIndex(x=>x.ok), correctText:correcta};
-}
-function iniciar(){
-  const n=parseInt(document.getElementById('numPreg').value,10);
-  const mins=parseInt(document.getElementById('minutos').value,10);
-  modo=document.getElementById('modo').value;
-  examen=shuffle(banco).slice(0, Math.min(n,banco.length)).map(prepararOpciones);
-  idx=0; respuestas=Array(examen.length).fill(null); segundos=mins*60;
-  document.getElementById('setup').classList.add('hide');
-  document.getElementById('results').classList.add('hide');
-  document.getElementById('exam').classList.remove('hide');
-  document.getElementById('total').textContent=examen.length;
-  if(intervalo) clearInterval(intervalo);
-  if(mins>0){ intervalo=setInterval(tick,1000); } else { document.getElementById('timer').textContent='Libre'; }
-  pintar();
-}
-function tick(){
-  segundos--;
-  const m=Math.floor(segundos/60), s=segundos%60;
-  document.getElementById('timer').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-  if(segundos<=0){clearInterval(intervalo); finalizar(true);}
-}
-function pintar(){
-  const p=examen[idx];
-  document.getElementById('actual').textContent=idx+1;
-  document.getElementById('tema').textContent=p.t;
-  document.getElementById('pregunta').textContent=p.q;
-  document.getElementById('respondidas').textContent=respuestas.filter(x=>x!==null).length;
-  document.getElementById('bar').style.width=((idx+1)/examen.length*100)+'%';
-  const cont=document.getElementById('opciones'); cont.innerHTML='';
-  p.opciones.forEach((op,i)=>{
-    const div=document.createElement('label'); div.className='option';
-    div.innerHTML=`<input type="radio" name="op" ${respuestas[idx]===i?'checked':''}> <span><b>${String.fromCharCode(65+i)}.</b> ${op.txt}</span>`;
-    div.onclick=()=>seleccionar(i);
-    if(modo==='estudio' && respuestas[idx]!==null){
-      if(i===p.correctIndex) div.classList.add('correct');
-      if(respuestas[idx]===i && i!==p.correctIndex) div.classList.add('wrong');
-    }
-    cont.appendChild(div);
-  });
-  const fb=document.getElementById('feedback'); fb.className='feedback'; fb.textContent='';
-  if(modo==='estudio' && respuestas[idx]!==null){
-    const ok=respuestas[idx]===p.correctIndex;
-    fb.className='feedback '+(ok?'ok':'bad');
-    fb.innerHTML=(ok?'<b>Correcto.</b> ':'<b>Incorrecto.</b> ')+p.e+`<br><b>Respuesta:</b> ${p.correctText}`;
-  }
-}
-function seleccionar(i){respuestas[idx]=i;pintar();}
-function siguiente(){ if(idx<examen.length-1){idx++;pintar();} }
-function anterior(){ if(idx>0){idx--;pintar();} }
-function finalizar(tiempo){
-  if(intervalo) clearInterval(intervalo);
-  document.getElementById('exam').classList.add('hide');
-  document.getElementById('results').classList.remove('hide');
-  let ac=0, err=0; const temas={};
-  examen.forEach((p,i)=>{
-    const ok=respuestas[i]===p.correctIndex;
-    if(ok) ac++; else {err++; temas[p.t]=(temas[p.t]||0)+1;}
-  });
-  const pct=Math.round(ac/examen.length*100);
-  document.getElementById('scoreBig').textContent=`${pct}/100`;
-  document.getElementById('aciertos').textContent=ac;
-  document.getElementById('errores').textContent=err;
-  document.getElementById('porcentaje').textContent=pct+'%';
-  let nivel='Riesgo'; if(pct>=85)nivel='Listo'; else if(pct>=70)nivel='Aceptable'; else if(pct>=60)nivel='Frágil';
-  document.getElementById('nivel').textContent=nivel;
-  let diag='';
-  if(tiempo) diag+='El tiempo terminó. ';
-  if(pct>=85) diag+='Buen dominio. Conviene hacer un último repaso de errores antes del examen.';
-  else if(pct>=70) diag+='Puede aprobar, pero debe repasar de inmediato la lista roja.';
-  else diag+='Debe concentrarse en definiciones básicas y diferencias. Repasar lista roja y repetir simulacro.';
-  document.getElementById('diagnostico').textContent=diag;
-  const lr=document.getElementById('listaRoja'); lr.innerHTML='';
-  const entries=Object.entries(temas).sort((a,b)=>b[1]-a[1]);
-  if(entries.length===0) lr.innerHTML='<div class="topic"><span>Sin errores por tema. Excelente.</span><span>OK</span></div>';
-  entries.forEach(([t,c])=>{lr.innerHTML+=`<div class="topic"><span>${t}</span><span>${c} error(es)</span></div>`});
-  renderRevision();
-}
-function renderRevision(){
-  const rev=document.getElementById('revision'); rev.innerHTML='';
-  examen.forEach((p,i)=>{
-    const ok=respuestas[i]===p.correctIndex;
-    if(soloErrores && ok) return;
-    const user=respuestas[i]===null?'Sin responder':p.opciones[respuestas[i]].txt;
-    rev.innerHTML+=`<div class="review-item">
-      <b>${i+1}. ${p.t}</b><br>${p.q}<br>
-      <span style="color:${ok?'var(--ok)':'var(--bad)'}"><b>${ok?'Correcta':'Incorrecta'}</b></span><br>
-      <b>Tu respuesta:</b> ${user}<br>
-      <b>Respuesta correcta:</b> ${p.correctText}<br>
-      <b>Explicación:</b> ${p.e}
-    </div>`;
-  });
-}
-function reiniciar(){
-  document.getElementById('results').classList.add('hide');
-  document.getElementById('setup').classList.remove('hide');
-  soloErrores=false;
-}
-function mostrarSoloErrores(){soloErrores=!soloErrores;renderRevision();}
-function verBanco(){
-  alert('Banco incluido: '+banco.length+' preguntas. Temas: Derecho Civil, Sucesiones, Derecho Familiar, Derecho Penal, Derecho Mercantil y preguntas mixtas.');
-}
+const DATA = {"logo": "data:image/png;base64,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", "sections": [{"id": "a", "title": "a) Vocablos básicos", "percent": "6%", "type": "fill", "items": [{"q": "SOCIEDAD: Conjunto de personas que existen desde el inicio de nuestra especie, aunque inicialmente estuvo conformada más ________ y centrada en ________ la supervivencia de unidades familiares o interfamiliares mínimas, como o las ________.", "a": ["simple", "asegurar", "tribus"], "hint": "Concepto social básico."}, {"q": "ECONOMÍA: Actividad encaminada al estudio de la ________, producción, intercambio, distribución y ________ de todos los bienes y servicios que la sociedad necesita para vivir.", "a": ["extracción", "consumo"], "hint": "Proceso económico completo."}, {"q": "SOCIOECONOMÍA: Actividades económicas que emprende la sociedad a través del ________ para satisfacer las ________ de sus miembros.", "a": ["trabajo", "necesidades"], "hint": "Relaciona economía, sociedad y trabajo."}]}, {"id": "b", "title": "b) Modelos económicos: toca la característica correcta", "percent": "8%", "type": "choiceGrid", "items": [{"model": "Mercantilismo", "options": ["El fundador fue el doctor François Quesnay, quien consideraba el dinero como una riqueza estéril.", "La riqueza la miden en dinero, en la acumulación de metales preciosos.", "La competencia es un aliciente extraordinario que obliga a los productores a la innovación."], "answer": 1}, {"model": "Fisiocracia", "options": ["El fundador fue el doctor François Quesnay, quien consideraba el dinero como una riqueza estéril.", "Abarca el período de 1450 hasta 1750.", "La competencia es un aliciente extraordinario que obliga a los productores a la innovación."], "answer": 0}, {"model": "Teoría Keynesiana", "options": ["La competencia es un aliciente extraordinario que obliga a los productores a la innovación.", "Cuando disminuye el gasto para inversión, la economía experimenta una recesión.", "El fundador fue el doctor François Quesnay, quien consideraba el dinero como una riqueza estéril."], "answer": 1}, {"model": "Teoría Clásica", "options": ["Economía en la que las relaciones entre capital y trabajo son relaciones de cambio.", "Cuando los trabajadores se especializan, aumentan su rendimiento.", "El fundador fue el doctor François Quesnay, quien consideraba el dinero como una riqueza estéril."], "answer": 1}, {"model": "Mercantilismo / Fisiocracia", "options": ["La competencia es un aliciente extraordinario que obliga a los productores a la innovación.", "La sociedad se divide en tres clases: la productiva, la propietaria y la estéril.", "La principal riqueza de un país la constituye su población."], "answer": 1, "note": "En la imagen aparece el rótulo repetido; se deja editable por si el docente confirma que corresponde a Fisiocracia."}, {"model": "Teoría Keynesiana", "options": ["Economía en la que las relaciones entre capital y trabajo son relaciones de cambio.", "Afirma que los países latinoamericanos venden materias primas a los países desarrollados.", "Tiene como base fundamental la idea de que la intervención del gobierno puede estabilizar la economía."], "answer": 2}, {"model": "Materialismo Histórico", "options": ["Abarca el período de 1450 hasta 1750.", "Las fuerzas productivas evolucionan de acuerdo al sistema de las relaciones de producción: la superestructura.", "La competencia sin ninguna reglamentación es la muerte de la competencia."], "answer": 1}, {"model": "Teoría Clásica", "options": ["Destaca la importancia de las leyes económicas, la competencia y el papel de la iniciativa privada en la economía.", "Economía de separación entre capital y trabajo.", "La principal riqueza de un país la constituye su población."], "answer": 0}]}, {"id": "c", "title": "c) Anota el vocabulario correspondiente", "percent": "20%", "type": "fill", "items": [{"q": "Nombre del movimiento filosófico impulsado por los hermanos Flores Magón durante la época de crisis del Porfiriato.", "a": ["Magonismo", "Movimiento magonista"]}, {"q": "Etapa de la historia universal que abarca desde el siglo V, hasta el descubrimiento de América (XV).", "a": ["Edad Media"]}, {"q": "Presidente que, con el propósito de lograr el reconocimiento del gobierno de Estados Unidos de Norteamérica, firmó los tratados de Bucarelli.", "a": ["Álvaro Obregón", "Alvaro Obregon"]}, {"q": "Nombre del proyecto artístico importado de intelectuales rusos para plasmar los ideales de la revolución mexicana en edificios públicos.", "a": ["Muralismo mexicano", "Muralismo"]}, {"q": "Presidente que modificó el período presidencial de cuatro a seis años en cuanto a su ejercicio.", "a": ["Plutarco Elías Calles", "Plutarco Elias Calles"]}, {"q": "Etapa de la historia universal que abarca del siglo XV hasta la Revolución Francesa (XVIII).", "a": ["Edad Moderna"]}, {"q": "Tiene como objetivo principal mejorar el bienestar o la calidad de vida de los habitantes de una población.", "a": ["Desarrollo", "Desarrollo social"]}, {"q": "Durante su período de gobierno entre 1920 y 1924, aumentó significativamente la exportación de petróleo para recuperar la economía mexicana.", "a": ["Álvaro Obregón", "Alvaro Obregon"]}, {"q": "Conflicto histórico que se suscitó en 1926, por el no reconocimiento de personalidad jurídica a la iglesia católica ni derecho a poseer bienes raíces.", "a": ["Guerra Cristera", "Cristiada"]}, {"q": "Etapa de la historia universal que comprende desde el siglo XVIII, hasta la actualidad (siglo XXI).", "a": ["Edad Contemporánea", "Edad Contemporanea"]}, {"q": "Político mexicano que asumió la Presidencia de México en 1913, y a los tres cuartos de hora presentó su renuncia ante el Congreso de la Unión.", "a": ["Pedro Lascuráin", "Pedro Lascurain", "Pedro Lascuráin Paredes"]}, {"q": "Consiste en aprovechar los recursos naturales para satisfacer necesidades, pero atendiendo a las necesidades de las generaciones futuras.", "a": ["Desarrollo sustentable", "Desarrollo sostenible"]}, {"q": "Inversión del Estado en materia económica, con el propósito de satisfacer las necesidades básicas de los ciudadanos.", "a": ["Gasto público", "Inversión pública", "Politica social", "Política social"]}, {"q": "Ruptura del equilibrio psicofisiológico entre el ser humano y los recursos naturales.", "a": ["Desequilibrio ecológico", "Desequilibrio ecologico", "Problema ecológico", "Problema ecologico"]}, {"q": "Etapa de la historia universal que comprende desde el 3500 a.C. hasta la caída del Imperio Romano de Occidente (Siglo V).", "a": ["Edad Antigua"]}, {"q": "En la sociedad evolucionada, para producir cada bien se requieren tres factores productivos.", "a": ["Tierra, trabajo y capital", "Tierra trabajo capital"]}, {"q": "Anota las dos partes en que se divide la CPEUM de 1917, así como los artículos que comprende para su estudio.", "a": ["Dogmática y orgánica; artículos 1 al 29 y 30 al 136", "Parte dogmática y parte orgánica; 1-29 y 30-136", "Dogmatica y organica 1-29 30-136"]}, {"q": "Es el conjunto de concepciones que los hombres de la época tienen acerca de sí mismos, del universo, de la vida.", "a": ["Cosmovisión", "Cosmovision"]}, {"q": "Autor de la obra: La riqueza de las naciones (1776), considerada como la primera investigación de orden económico en las sociedades modernas.", "a": ["Adam Smith"]}, {"q": "Etapa de la historia universal que inicia desde hace tres millones de años, hasta la aparición de la escritura.", "a": ["Prehistoria"]}]}, {"id": "d", "title": "d) Respuesta correcta", "percent": "11%", "type": "fill", "items": [{"q": "Construido con cuatro pilares importantes, obras del maestro Oliverio Martínez, que simbolizan las cuatro grandes transformaciones.", "a": ["Monumento a la Revolución", "Monumento a la Revolucion"], "hint": "Sus grupos escultóricos aluden a Independencia, Reforma, Leyes Agrarias y Leyes Obreras."}, {"q": "El período identificado como Porfiriato abarcó de 1877 a 1880 y de 1884 a 1911 generó crecimiento y desarrollo económico ¿falso o verdadero?", "a": ["Verdadero"]}, {"q": "Presidente de la República que logró por primera vez un superávit con la administración de José Yves Limantour en el año de 1894.", "a": ["Porfirio Díaz", "Porfirio Diaz"]}, {"q": "Huelga que surgió en la CDMX en 1876, por abusos por parte de los dueños de la fábrica de tejidos que les robaban a los trabajadores por medio de descuentos y multas.", "a": ["Huelga de La Fama Montañesa", "La Fama Montañesa", "Huelga de La Fama Montana"]}, {"q": "Nombre de la prisión que se inauguró durante el Porfiriato el 29 de septiembre de 1900, y actualmente es el Archivo General de la Nación.", "a": ["Lecumberri", "Palacio de Lecumberri"]}, {"q": "Nombre del pacto que unió a los ejércitos de Villa y Zapata el 4 de diciembre de 1914 ante el descontento respecto al ejército constitucionalista de Venustiano Carranza.", "a": ["Pacto de Xochimilco"]}, {"q": "Nombre del acontecimiento histórico en el que Madero y Pino Suárez fueron asesinados en la Penitenciaría, edificio que hoy es el Archivo General de la Nación, el 19 de febrero de 1913.", "a": ["Decena Trágica", "Decena Tragica"]}, {"q": "Acuerdo celebrado entre los gobiernos de México y Estados Unidos de Norteamérica en 1923 que garantizaría los derechos de propiedad de extranjeros y de sus compañías petroleras en territorio mexicano.", "a": ["Tratados de Bucareli", "Convenio de Bucareli"]}, {"q": "El periodo histórico y político de México denominado ________ abarcó desde 1928, con el gobierno de Emilio Portes Gil como presidente, hasta 1934 con el gobierno de ________.", "a": ["Maximato; Lázaro Cárdenas", "Maximato Lazaro Cardenas", "Maximato; Lazaro Cardenas"]}, {"q": "Nombre del secretario o ministro de Instrucción Pública desde 1921 hasta 1924, que impulsó la primera reforma educativa del siglo XX en México.", "a": ["José Vasconcelos", "Jose Vasconcelos"]}]}, {"id": "e", "title": "e) Ciclo económico", "percent": "8%", "type": "cycle", "items": [{"q": "Se trata de una serie de ________ por la que pasa la ________ y que suceden o transitan de manera ________ hasta llegar a la fase final en la que el ciclo económico comienza de nuevo.", "a": ["fases", "economía", "periódica"]}, {"q": "Ordena las etapas del ciclo económico.", "a": ["Recuperación", "Expansión", "Recesión", "Depresión"]}]}]};
+let active=0;
+let state={};
+function norm(s){return (s||'').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9ñ]+/g,' ').trim();}
+function acceptable(val, answers){let v=norm(val); return answers.some(a=>{let n=norm(a); return v===n || (v.length>5 && (v.includes(n)||n.includes(v)));});}
+function totalItems(){return DATA.sections.reduce((n,s)=>n+s.items.length,0)}
+function answeredCount(){return Object.values(state).filter(Boolean).length}
+function updateProgress(){let a=answeredCount(), t=totalItems();document.getElementById('scoreText').textContent=`Avance: ${a}/${t}`;document.getElementById('scorePct').textContent=Math.round(a*100/t)+'%';document.getElementById('fill').style.width=(a*100/t)+'%';}
+function makeTabs(){const tabs=document.getElementById('tabs');tabs.innerHTML='';DATA.sections.forEach((s,i)=>{let b=document.createElement('button');b.className='tab'+(i===active?' active':'');b.textContent=s.title.split(')')[0]+') '+s.percent;b.onclick=()=>{active=i;render();};tabs.appendChild(b);})}
+function render(){makeTabs();const main=document.getElementById('main');main.innerHTML='';DATA.sections.forEach((s,si)=>{const p=document.createElement('section');p.className='panel'+(si===active?' active':'');p.innerHTML=`<div class="sectionTitle"><h2>${s.title}</h2><span class="badge">${s.percent}</span></div>`; if(s.type==='fill') renderFill(p,s,si); if(s.type==='choiceGrid') renderChoice(p,s,si); if(s.type==='cycle') renderCycle(p,s,si); main.appendChild(p);});updateProgress();}
+function renderFill(p,s,si){s.items.forEach((it,ii)=>{let id=`${s.id}-${ii}`;let c=document.createElement('div');c.className='card';c.innerHTML=`<div class="qhead"><div class="num">${ii+1}</div><div class="qtext">${it.q}</div></div>${it.hint?`<div class="small">Pista: ${it.hint}</div>`:''}<input class="input" id="inp-${id}" placeholder="Escribe tu respuesta"><div class="actions"><button class="btn" onclick="checkFill('${id}',${si},${ii})">Revisar</button><button class="btn ghost" onclick="showAnswer('${id}')">Ver respuesta</button></div><div class="feedback" id="fb-${id}"></div><div class="answer" id="ans-${id}"><b>Respuesta esperada:</b> ${Array.isArray(it.a)?it.a[0]:it.a}</div>`;p.appendChild(c);})}
+function checkFill(id,si,ii){let it=DATA.sections[si].items[ii];let v=document.getElementById('inp-'+id).value;let ok=acceptable(v,Array.isArray(it.a)?it.a:[it.a]);let fb=document.getElementById('fb-'+id);fb.className='feedback '+(ok?'ok':'bad');fb.textContent=ok?'Correcto.':'Revisa tu respuesta o toca “Ver respuesta”.'; if(ok) state[id]=true; updateProgress();}
+function showAnswer(id){document.getElementById('ans-'+id).classList.toggle('show'); state[id]=true; updateProgress();}
+function renderChoice(p,s,si){s.items.forEach((it,ii)=>{let id=`${s.id}-${ii}`;let c=document.createElement('div');c.className='card';let opts=it.options.map((o,oi)=>`<div class="option" onclick="pickOption('${id}',${si},${ii},${oi},this)">${o}</div>`).join('');c.innerHTML=`<div class="qhead"><div class="num">${ii+1}</div><div><div class="model">${it.model}</div><div class="small">Selecciona el recuadro que corresponde al modelo.</div></div></div>${opts}${it.note?`<div class="note">${it.note}</div>`:''}<div class="answer" id="ans-${id}"><b>Respuesta esperada:</b> ${it.options[it.answer]}</div>`;p.appendChild(c);})}
+function pickOption(id,si,ii,oi,el){let it=DATA.sections[si].items[ii];[...el.parentNode.querySelectorAll('.option')].forEach(x=>x.classList.remove('selected','good','wrong'));el.classList.add('selected',oi===it.answer?'good':'wrong');document.getElementById('ans-'+id).classList.add('show'); if(oi===it.answer) state[id]=true; updateProgress();}
+function renderCycle(p,s,si){const box=document.createElement('div');box.className='cycleBox';box.innerHTML=`<div class="wave"><svg viewBox="0 0 420 100" preserveAspectRatio="none"><path d="M10 70 C70 80, 90 70, 125 35 S205 15, 245 55 S320 95, 365 55 S405 50, 415 55" fill="none" stroke="#001E7C" stroke-width="4" stroke-linecap="round"/><circle cx="125" cy="35" r="5" fill="#B08A00"/><circle cx="245" cy="55" r="5" fill="#B08A00"/><circle cx="330" cy="78" r="5" fill="#B08A00"/></svg></div><div class="labels"><span>Recuperación</span><span>Expansión</span><span>Recesión</span><span>Depresión</span></div></div>`;p.appendChild(box); renderFill(p,s,si);}
+function nextSection(){active=Math.min(active+1,DATA.sections.length-1);render();window.scrollTo(0,0)}
+function prevSection(){active=Math.max(active-1,0);render();window.scrollTo(0,0)}
+render();
 </script>
 </body>
 </html>
